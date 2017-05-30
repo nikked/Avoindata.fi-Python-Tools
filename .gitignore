@@ -4,6 +4,7 @@ csv/
 json/
 opt/
 old/
+util/google_api_key.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

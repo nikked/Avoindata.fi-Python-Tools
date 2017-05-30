@@ -7,7 +7,8 @@ import pprint
 
 
 def main():
-    api_key = 'AIzaSyD50wBD1UInLvD-cCIRA2aM5AKZZu9n7ns'
+    with open('./util/google_api_key.txt', 'r') as file:
+        api_key = file.read()
     cli(api_key)
 
 
@@ -53,7 +54,8 @@ def cli(api_key):
 
 
 def query_address_data(address):
-    api_key = 'AIzaSyD50wBD1UInLvD-cCIRA2aM5AKZZu9n7ns'
+    with open('./util/google_api_key.txt', 'r') as file:
+        api_key = file.read()
     base = 'https://maps.googleapis.com/maps/api/geocode/json?'
     q_address = "address=" + address.replace(" ", "+") + "+Finland"
     geo_url = base + q_address + "&key=" + '&region=.fi' + api_key
