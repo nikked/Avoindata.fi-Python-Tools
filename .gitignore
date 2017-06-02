@@ -1,5 +1,8 @@
 .DS_Store
 
+*.csv
+*.zip
+
 csv/
 json/
 opt/

@@ -3,9 +3,9 @@ import glob
 
 
 def main():
-    # convert_opt_to_csv()
+    convert_opt_to_csv()
     # convert_csv_to_json()
-    test_etrs_to_wgs84_conversion_accuracy()
+    # test_etrs_to_wgs84_conversion_accuracy()
 
 
 def convert_opt_to_csv():
