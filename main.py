@@ -1,9 +1,11 @@
 from util import opt_to_csv, csv_to_json, test_geo_conversion
 import glob
+from scripts import find_mismatching_data
 
 
 def main():
-    convert_opt_to_csv()
+    find_mismatching_data.process_csv()
+    # convert_opt_to_csv()
     # convert_csv_to_json()
     # test_etrs_to_wgs84_conversion_accuracy()
 
