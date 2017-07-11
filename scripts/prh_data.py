@@ -45,7 +45,7 @@ def write_company_data(company_dict, year):
             details = json.loads(details_response)["results"][0]
             company_dict[row['name']] = details
 
-            with open('data/json/output.json', 'w') as outfile:
+            with open('data/json/prh_data/output.json', 'w') as outfile:
                 json.dump(company_dict, outfile)
 
         for row in response_data_h2:
@@ -53,7 +53,7 @@ def write_company_data(company_dict, year):
             details = json.loads(details_response)["results"][0]
             company_dict[row['name']] = details
 
-            with open('data/json/output.json', 'w') as outfile:
+            with open('data/json/prh_data/output.json', 'w') as outfile:
                 json.dump(company_dict, outfile)
 
     return total_company_amount
