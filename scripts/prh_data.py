@@ -3,72 +3,85 @@ from urllib.request import urlopen
 import json
 
 
-# industries = consts.ALL_INDUSTRIES
+industries = consts.ALL_INDUSTRIES
 
-industries = [1]
-selected_years = [2016]
+# industries = [1]
+selected_years = [2004]
 
 
 def get_prh_data():
-    company_dict = {}
     processed = 0
-    selected_years = [2016]
     for year in selected_years:
         print('Now processing year: {}'.format(year))
-        processed += write_company_data(company_dict, year)
+        processed += write_company_data(year)
     print('Handled {} companies'.format(processed))
 
 
-def write_company_data(company_dict, year):
+def write_company_data(year):
     total_company_amount = 0
     for businessline_id in industries:
 
-        date_start_h1 = "{}-01-01".format(year)
-        date_end_h1 = "{}-06-30".format(year)
-        date_start_h2 = "{}-06-30".format(year)
-        date_end_h2 = "{}-12-31".format(year)
-
-        response_data_h1 = get_business_line_data(
-            businessline_id, date_start_h1, date_end_h1)
-
-        response_data_h2 = get_business_line_data(
-            businessline_id, date_start_h2, date_end_h2)
-
-        if response_data_h1 is None and response_data_h2 is None:
+        if businessline_id < 56:
             continue
 
-        total_company_amount += len(response_data_h1)
-        total_company_amount += len(response_data_h2)
+        print("Business line id: {}".format(businessline_id))
 
-        for row in response_data_h1:
-            details_response = urlopen(row["detailsUri"]).read()
-            details = json.loads(details_response)["results"][0]
-            company_dict[row['name']] = details
 
-            with open('data/json/prh_data/output.json', 'w') as outfile:
-                json.dump(company_dict, outfile)
+        company_dict = {}
+        file_name = 'year_{}_industry _{}.json'.format(year, businessline_id)
 
-        for row in response_data_h2:
-            details_response = urlopen(row["detailsUri"]).read()
-            details = json.loads(details_response)["results"][0]
-            company_dict[row['name']] = details
+        periods = [
+            ("{}-01-01".format(year), "{}-03-31".format(year)),
+            ("{}-04-01".format(year), "{}-06-30".format(year)),
+            ("{}-07-01".format(year), "{}-09-30".format(year)),
+            ("{}-10-01".format(year), "{}-12-31".format(year))
+        ]
 
-            with open('data/json/prh_data/output.json', 'w') as outfile:
-                json.dump(company_dict, outfile)
+        for period in periods:
+            date_start = period[0]
+            date_end = period[1]
+
+            response_data = get_business_line_data(
+                businessline_id, date_start, date_end)
+
+            if not response_data:
+                continue
+
+            total_company_amount += len(response_data)
+
+            for row in response_data:
+                try:
+                    details_response = urlopen(row["detailsUri"]).read()
+                    details = json.loads(details_response)["results"][0]
+                    company_dict[row['name']] = details
+                except AttributeError:
+                    company_dict[row['name']] = row                     
+
+        with open('data/json/prh_data/{}'.format(file_name),
+                  'w') as outfile:
+            json.dump(company_dict, outfile)
 
     return total_company_amount
 
 
 def get_business_line_data(id, date_start, date_end):
-    print("Business line id: " + str(id))
+
+    if id < 10:
+        id = '0{}'.format(id)
 
     url = "http://avoindata.prh.fi:80/bis/v1?totalResults=false&maxResults=1000&resultsFrom=0&businessLineCode={}&companyRegistrationFrom={}&companyRegistrationTo={}".format(
         id, date_start, date_end)
 
-    json_response = urlopen(url).read()
-    response_data = json.loads(json_response)["results"]
+    try:
+        json_response = urlopen(url).read()
+    except:
+        return None
 
+
+    response_data = json.loads(json_response)["results"]
+    print('Period {}/{}'.format(date_start, date_end))
     print("Amount of results: " + str(len(response_data)))
+    print()
 
     if len(response_data) > 999:
         print("Halting!!! This business line has over 1000 companies founded this year")
