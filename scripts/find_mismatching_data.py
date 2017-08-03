@@ -40,7 +40,7 @@ def find_lacking_post_codes():
 
 
 def csv_writer_generator(file_name):
-    f = csv.writer(open('./csv/mismatches/{}.csv'.format(file_name), 'w'))
+    f = csv.writer(open('./csv/prh/{}.csv'.format(file_name), 'w'))
 
     f.writerow(['building_code',
                 'municipality',
