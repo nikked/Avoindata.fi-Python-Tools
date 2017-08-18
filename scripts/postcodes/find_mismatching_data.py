@@ -2,17 +2,12 @@ from util import file_util
 import csv
 
 
-# maakunta 2
-# kunta 1
-# kokonaan osoite 7 8
-# postinumero (00000) 10
-
-
+# A script that finds erroneous data in the original dataset
 def process_csv():
-    find_lacking_post_codes()
+    find_lacking_data()
 
 
-def find_lacking_post_codes():
+def find_lacking_data():
 
     fin_data = file_util.open_csv('./csv/Suomi_osoitteet_2017-05-15.csv')
 
@@ -48,8 +43,6 @@ def csv_writer_generator(file_name):
                 'use',
                 'northern_ETRSTM35FIN',
                 'eastern_ETRSTM35FIN',
-                # 'longitude_wgs84',
-                # 'latitude_wgs84',
                 'address_number',
                 'street_finnish',
                 'street_swedish',

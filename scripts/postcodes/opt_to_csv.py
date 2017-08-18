@@ -24,8 +24,8 @@ def write_csv(geo_data, file_name):
                 'use',
                 'northern_ETRSTM35FIN',
                 'eastern_ETRSTM35FIN',
-                # 'longitude_wgs84',
-                # 'latitude_wgs84',
+                'longitude_wgs84',
+                'latitude_wgs84',
                 'address_number',
                 'street_finnish',
                 'street_swedish',
@@ -44,8 +44,7 @@ def write_csv(geo_data, file_name):
         wgs84 = etrs_to_wgs84(etrs_lo, etrs_la)
         f.writerow([
             r[0], r[1], r[2], r[3], r[4], r[5],
-            # wgs84[1],
-            # wgs84[0],
+            wgs84[1], wgs84[0],
             r[6], r[7], r[8], r[9], str(r[10]),
             r[11], r[12], r[13]
         ])

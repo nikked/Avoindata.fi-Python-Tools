@@ -1,4 +1,0 @@
-json csv
-csv murre
-
-http://frictionlessdata.io/data-packages/

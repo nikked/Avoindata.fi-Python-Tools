@@ -103,7 +103,7 @@ def get_business_line_data(id, date_start, date_end):
     print()
 
     if len(response_data) > 999:
-        print("Halting!!! This business line has over 1000 companies founded this year")
+        print("This business line has over 1000 companies in this timeperiod")
         print(id)
         return response_data
 
