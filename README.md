@@ -20,7 +20,7 @@
 
 * A script that gets data from PRH's company API from 1978 to 2017
 * It makes a query based on the following parameters:
-	1. A 3-month period for each year
+	1. A company registration time period defined as one month
 	2. Business line code as defined by Statistics Finland:
 	http://tilastokeskus.fi/meta/luokitukset/toimiala/001-2008/index_en.html
 * The data is saved on: data/json/prh_data
