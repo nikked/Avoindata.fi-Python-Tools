@@ -1,4 +1,4 @@
-# Avoindata.fi-Python-Scripts
+# Avoindata.fi: Python tools
 > A collection of Python scripts helping to generate some open data packages for https://www.avoindata.fi/fi
 
 ## PRH COMPANY REGISTER
