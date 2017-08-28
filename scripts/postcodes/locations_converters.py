@@ -1,11 +1,11 @@
 import glob
-from util.prh_util import csv_to_json, test_geo_conversion
+from util.geo_util import csv_to_json
 from scripts.postcodes import opt_to_csv
 
 
 # A function to convert multiple OPT files to CSV
 def convert_opt_to_csv():
-    path = "./opt/*.OPT"
+    path = "./data/opt/postcodes/*.OPT"
     for fname in glob.glob(path):
         print('Now processing {}'.format({fname}))
         file_name = fname[6:-4]
@@ -21,10 +21,10 @@ def convert_csv_to_json():
         csv_to_json.godi_data(file_name)
 
 
-#  Testing accuracy of geo conversion
-def test_etrs_to_wgs84_conversion_accuracy():
-    northern = 7047819
-    eastern = 382272
-    address = 'Kangasvierentie 53 Lestijarvi'
+# #  Testing accuracy of geo conversion
+# def test_etrs_to_wgs84_conversion_accuracy():
+#     northern = 7047819
+#     eastern = 382272
+#     address = 'Kangasvierentie 53 Lestijarvi'
 
-    test_geo_conversion.test(northern, eastern, address)
+#     test_geo_conversion.test(northern, eastern, address)

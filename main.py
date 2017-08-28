@@ -5,6 +5,7 @@
 from scripts.prh.get_prh_data import get_prh_data
 from scripts.prh.make_csv_of_prh_data import make_csv_of_prh_data
 from scripts.liityntakatalogi import get_liitynta_katalogi_data
+from scripts.postcodes import locations_converters
 
 
 def main():
@@ -12,6 +13,7 @@ def main():
     # Postcodes
     # https://www.avoindata.fi/data/fi/dataset/postcodes
     # find_mismatching_data.process_csv()
+    # locations_converters.convert_opt_to_csv()
 
     # PRH company data
     # https://avoindata.prh.fi/ytj.html

@@ -3,7 +3,7 @@ from .etrs_to_wgs84 import etrs_to_wgs84
 
 
 def convert(file_name):
-    file_path = './opt/{}.OPT'.format(file_name)
+    file_path = './data{}.OPT'.format(file_name)
     geo_data = open_opt_file(file_path)
     write_csv(geo_data, file_name)
 
@@ -16,7 +16,9 @@ def open_opt_file(file_path):
 
 
 def write_csv(geo_data, file_name):
-    f = csv.writer(open('./csv/{}.csv'.format(file_name), 'w'))
+
+    output_path = file_name.replace('opt', 'csv')
+    f = csv.writer(open('./data{}.csv'.format(output_path), 'w'))
 
     f.writerow(['building_code',
                 'municipality',
