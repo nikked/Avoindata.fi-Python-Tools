@@ -1,3 +1,23 @@
+### TODO
+
+* Kaynti ja postiosoite
+* Rekisterointi paikkakunnat
+	* BisCompanyRegisteredOffice
+
+	
+* Only take addresses with type 1 (active most recent address)
+* Yhteystiedot (version 1)
+	* puh nro
+	* kotisivu 
+* Liquidations	
+
+ Melko kovalla kädellä olette karsineet tietoja. Osoitteiden osalta tein pienen pistokokeen - BisAddress version (integer): Yksi tarkoittaa nykyistä versiota ja >1 historiallisia osoitteita. Esim. 2443455-9 osoitteena on Helsinki mutta siinä on version = 2 (=vanha osoite). Yksi eli uudempi osoite on Espoon. Myös Kaupparekisterin kuulutustiedot näyttävät Espoota http://avoindata.prh.fi/opendata/tr/v1/2443455-9 Näköjään prh api oikuttelee juuri nyt, niin en pääse tarkistamaan vastaavaa bis-apia.
+
+ Jos karsia halutaan, niin se on ihan ok. Mukaan ottaisin kuitenkin ainakin viimeiset osoitetiedot (TYPE,Osoitteen laji, käyntiosoite 1 , postiosoite 2 ) lisäksi yrityksen kotipaikan selvittelyjen takia myös ehkä rekisteröinti paikkakunnat ja yhteystiedot, joista löytyy mm. puhelinnumerot ja mahdollisesti kotisivu. Version -kentän arvo pitää noissakin huomioida eli version=1. Lisäksi jos löytyy liquidations-tietoja niin ne olisi hyvä huomioida. Esim. 0616325-7 "version" : 1,
+"description" : "Konkurssissa",
+"type" : "KONK"....... --> En päässyt tarkistamaan tätäkään bis-apista eli YTJ -tiedoista.Toisin sanoen näkyi omista aiemmin poimituista.
+
+
 # Avoindata.fi: Python tools
 > A collection of Python scripts helping to generate some open data packages for https://www.avoindata.fi/fi
 

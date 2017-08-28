@@ -6,7 +6,7 @@ import os.path
 
 industries = consts.ALL_INDUSTRIES
 
-selected_years = [yr for yr in range(1978, 2018)]
+selected_years = [yr for yr in range(2017, 2018)]
 
 
 def get_prh_data():
