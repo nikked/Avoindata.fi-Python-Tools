@@ -8,14 +8,13 @@ import os.path
 
 
 def make_csv_of_prh_data():
-    # pattern = os.path.join('./data/json/prh_data/{}'.format(year), '*.json')
 
-    source = './data/json/prh_data/**/*.json'
-
-    with open('./data/csv/prh/output.csv', 'w', encoding='utf-8') as csv_file:
+    with open('./data/csv/prh/full_prh_data.csv', 'w', encoding='utf-8') as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';')
 
         write_title(csv_writer)
+
+        # write content
         # https://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python
         for file_path in glob.iglob(
                 './data/json/prh_data/**/*.json', recursive=True):
@@ -38,17 +37,16 @@ def write_title(csv_writer):
                          'street_post_code',
                          'street_city',
                          'liquidation',
-                         'phone number',
+                         # 'phone number',
                          'registered office'
                          ])
 
 
 def write_dict(csv_writer, path):
-    prh_dict = open_json(path)
-    for key, value in prh_dict.items():
+    prh_json = open_json(path)
+    for key, value in prh_json.items():
 
-        # find companies that are not anymore in trade register
-        # ignore them since they do not anymore exist
+        # If company does not exist anymore in traderegister, skip it
         company_exists = True
         for entry in value['registeredEntries']:
             if entry['register'] == 1:
@@ -58,31 +56,36 @@ def write_dict(csv_writer, path):
         if not company_exists:
             continue
 
+        # Otherwise, proceed writing the company to csv
+
+        # BASIC DATA
         name = value['name']
         business_id = value['businessId']
         company_form = value['companyForm']
         registration_date = value['registrationDate']
 
-        # Addresses
+        # ADDRESSES
+        # Fetch street address and postal address separately.
+        # For both, fetch the most recent version
 
-        # search for the most recent address (type = 1)
+        # Version 1: most recent address
+        # Type 1: street address
+        # Type 2: postal address
 
         # Street address
         street_address = street_post_code = street_city = ''
         try:
-            writeable_street_address = writeable_postal_address = ''
+            writeable_street_address = ''
             for address in value['addresses']:
-
-                # street_address
-                if address['version'] == 1:
-                    if address['type'] == 1:
-                        writeable_street_address = address
+                if address['version'] == 1 and address['type'] == 1:
+                    writeable_street_address = address
 
             street_address = writeable_street_address['street']
-            street_post_code = writeable_street_address['postCode']
+            street_post_code = str(writeable_street_address['postCode'])
             street_city = writeable_street_address['city']
 
-        except:
+        # Raises when no addresses are defined
+        except TypeError:
             pass
 
         # Postal address
@@ -91,19 +94,17 @@ def write_dict(csv_writer, path):
             writeable_postal_address = ''
             for address in value['addresses']:
 
-                # street_address
-                if address['version'] == 1:
-                    if address['type'] == 2:
-                        writeable_postal_address = address
+                if address['version'] == 1 and address['type'] == 2:
+                    writeable_postal_address = address
 
             postal_address = writeable_postal_address['street']
-            postal_post_code = writeable_postal_address['postCode']
+            postal_post_code = str(writeable_postal_address['postCode'])
             postal_city = writeable_postal_address['city']
 
-        except:
+        except TypeError:
             pass
 
-        #  Industry
+        #  INDUSTRY
         industry = ''
 
         try:
@@ -118,8 +119,7 @@ def write_dict(csv_writer, path):
         except IndexError:
             pass
 
-        # Liquidations
-
+        # LIQUIDATIONS
         liquidation = ''
         if value['liquidations']:
             for lq in value['liquidations']:
@@ -129,17 +129,16 @@ def write_dict(csv_writer, path):
                 if not liquidation:
                     liquidation = lq['description']
 
-        # Contact details
+        # CONTACT DETAILS
         phone = ''
         if value['contactDetails']:
             for dt in value['contactDetails']:
                 if 'puhelin' in dt['type'].lower():
                     phone = dt['value']
 
-        # Registered office
+        # REGISTERED OFFICE
         # Note there is a typo in PRH's api:
         # registeredOffice vs registedOffice
-        # topkek
         registered_office = ''
         if 'registedOffices' in value:
             for reg in value['registedOffices']:
@@ -147,7 +146,7 @@ def write_dict(csv_writer, path):
 
                     registered_office = reg['name']
 
-        # Write to csv
+        # WRITE TO CSV
         csv_writer.writerow([
             name,
             business_id,
@@ -158,11 +157,11 @@ def write_dict(csv_writer, path):
             postal_address,
             postal_post_code,
             postal_city,
-             street_address,
-             street_post_code,
-             street_city,            
+            street_address,
+            street_post_code,
+            street_city,
             liquidation,
-            phone,
+            # phone,
             registered_office
         ])
 
