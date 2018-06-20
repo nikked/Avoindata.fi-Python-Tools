@@ -16,7 +16,7 @@ def get_prh_data():
             'data',
             'json',
             'prh_data',
-            '2017')
+            '2018')
     )
 
     processed = 0
