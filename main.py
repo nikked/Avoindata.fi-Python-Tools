@@ -17,8 +17,8 @@ def main():
 
     # PRH company data
     # https://avoindata.prh.fi/ytj.html
-    # get_prh_data()
-    make_csv_of_prh_data()
+    get_prh_data()
+    # make_csv_of_prh_data()
 
     # Liityntakatalogi
     # https://liityntakatalogi.suomi.fi/organization

@@ -3,6 +3,7 @@ from urllib.request import urlopen
 import json
 
 import os.path
+import os
 
 industries = consts.ALL_INDUSTRIES
 
@@ -10,6 +11,14 @@ selected_years = [yr for yr in range(2017, 2018)]
 
 
 def get_prh_data():
+    os.makedirs(
+        os.path.join(
+            'data',
+            'json',
+            'prh_data',
+            '2017')
+    )
+
     processed = 0
     for year in selected_years:
         print('Now processing year: {}'.format(year))
